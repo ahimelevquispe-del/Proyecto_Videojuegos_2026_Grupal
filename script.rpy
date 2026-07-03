@@ -17,6 +17,7 @@ define music_reflexion = "audio/reflexion_piano.ogg"
 define music_reconstruccion = "audio/reconstruccion_lenta.ogg"
 define music_valenzuela = "audio/valenzuela_tema.ogg"
 
+
 # ============================================================
 # INICIALIZACIÓN - VARIABLES DEL SISTEMA
 # ============================================================
@@ -78,7 +79,8 @@ image valenzuela_comprensiva = "images/personajes/valenzuela_comprensiva.png"
 image valenzuela_preocupada = "images/personajes/valenzuela_preocupada.png"
 image valenzuela_decepcionada = "images/personajes/valenzuela_decepcionada.png"
 image valenzuela_orgullosa = "images/personajes/valenzuela_orgullosa.png"
-
+transform bajar_sprite:
+    yoffset 600
 # ============================================================
 # SCREENS
 # ============================================================
@@ -158,7 +160,7 @@ label acto1_inicio:
     scene bg_playa_noche
     with dissolve
 
-    show bernard_neutral at center
+    show bernard_neutral at center,bajar_sprite
     with dissolve
 
     b "Oye, ¿escuchaste lo de Marco? Ya está trabajando en esa startup."
