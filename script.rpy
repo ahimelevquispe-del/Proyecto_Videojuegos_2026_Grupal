@@ -54,19 +54,19 @@ define mama = Character("Mamá", color="#e74c3c")
 # ============================================================
 
 image bg_black = Solid("#000000")
-image bg_playa_noche = "images/fondos/playa_noche.jpg"
-image bg_calle_noche = "images/fondos/calle_san_miguel_noche.jpg"
-image bg_habitacion = "images/fondos/habitacion_desorden.jpg"
-image bg_campus_tarde = "images/fondos/campus_nublado.jpg"
-image bg_oficina = "images/fondos/oficina_valenzuela.jpg"
-image bg_pasillo_universidad = "images/fondos/pasillo_universidad.jpg"
-image bg_playa_accidente = "images/fondos/playa_accidente.jpg"
-image bg_playa_amanecer = "images/fondos/malecon_amanecer.jpg"
-image bg_malecon = "images/fondos/malecon_dia.jpg"
-image bg_biblioteca = "images/fondos/biblioteca_vacia.jpg"
-image bg_cancha = "images/fondos/cancha_amateur.jpg"
-image bg_centro_salud = "images/fondos/centro_salud.jpg"
-image bg_cafeteria = "images/fondos/cafeteria_universidad.jpg"
+image bg_playa_noche = Transform("images/fondos/bg_playa_noche.png", size=(1920, 1080))
+image bg_calle_noche = Transform("images/fondos/bg_calle_noche.png", size=(1920, 1080))
+image bg_habitacion = Transform("images/fondos/bg_habitacion.png", size=(1920, 1080))
+image bg_campus_tarde = Transform("images/fondos/bg_campus_tarde.png", size=(1920, 1080))
+image bg_oficina = Transform("images/fondos/bg_oficina.png", size=(1920, 1080))
+image bg_pasillo_universidad = Transform("images/fondos/bg_pasillo_universidad.jpeg", size=(1920, 1080))
+image bg_playa_accidente = Transform("images/fondos/bg_playa_accidente.png", size=(1920, 1080))
+image bg_playa_amanecer = Transform("images/fondos/bg_playa_amanecer.png", size=(1920, 1080))
+image bg_malecon = Transform("images/fondos/bg_malecon.png", size=(1920, 1080))
+image bg_biblioteca = Transform("images/fondos/bg_biblioteca_vacia.png", size=(1920, 1080))
+image bg_cancha = Transform("images/fondos/bg_cancha_amateur.png", size=(1920, 1080))
+image bg_centro_salud = Transform("images/fondos/bg_centro_salud.png", size=(1920, 1080))
+image bg_cafeteria = Transform("images/fondos/bg_cafeteria_universidad.png", size=(1920, 1080))
 
 image bernard_neutral = "images/personajes/bernard_neutral.png"
 image bernard_preocupado = "images/personajes/bernard_preocupado.png"
