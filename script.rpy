@@ -160,7 +160,7 @@ label acto1_inicio:
     scene bg_playa_noche
     with dissolve
 
-    show bernard_neutral at center,bajar_sprite
+    show bernard_neutral at center, bajar_sprite
     with dissolve
 
     b "Oye, ¿escuchaste lo de Marco? Ya está trabajando en esa startup."
@@ -196,7 +196,7 @@ label acto1_inicio:
             $ prof_trust += 5
             $ bernard_vinculo += 5
             $ enfrento_problemas = True
-            show bernard_preocupado at center
+            show bernard_preocupado at center, bajar_sprite
             b "Leo... es la primera vez que lo dices en voz alta."
             b "Yo también tengo miedo."
 
@@ -205,7 +205,7 @@ label acto1_inicio:
             $ drinking += 15
             $ impulse += 1
             $ mental_load += 2
-            show bernard_triste at center
+            show bernard_triste at center, bajar_sprite
             b "Toma."
 
     if drinking >= 25:
@@ -218,7 +218,7 @@ label acto1_inicio:
 
     "Pasamos una hora en silencio."
 
-    show bernard_neutral at center
+    show bernard_neutral at center, bajar_sprite
 
     b "Deberíamos irnos. Mañana hay clase."
 
@@ -227,7 +227,7 @@ label acto1_inicio:
             $ avoidance += 1
             $ drinking += 10
             $ mental_load += 1
-            show bernard_triste at center
+            show bernard_triste at center, bajar_sprite
             b "Está bien. Pero solo un rato."
 
         "Tienes razón. Vámonos.":
@@ -338,7 +338,7 @@ label acto2_inicio:
     scene bg_oficina
     with dissolve
 
-    show valenzuela_neutral at center
+    show valenzuela_neutral at center, bajar_sprite
     with dissolve
 
     v "Leo. Gracias por venir. Siéntate."
@@ -360,7 +360,7 @@ label acto2_inicio:
                 $ enfrento_problemas = True
                 $ valenzuela_relacion += 10
                 $ valenzuela_ultima_impresion = "honesto"
-                show valenzuela_comprensiva at center
+                show valenzuela_comprensiva at center, bajar_sprite
                 v "Me alegra escucharlo, Leo. De verdad."
                 v "No te voy a mentir: la situación es seria. Pero no es irreversible."
                 v "¿Qué necesitas? ¿Una prórroga? ¿Reducir carga? ¿Algo más?"
@@ -395,7 +395,7 @@ label acto2_inicio:
                 $ mental_load += 2
                 $ valenzuela_relacion -= 15
                 $ valenzuela_ultima_impresion = "defensivo"
-                show valenzuela_firme at center
+                show valenzuela_firme at center, bajar_sprite
                 v "No es un regaño, Leo. Es un espejo."
                 v "Llevo quince años enseñando. He visto a cientos como tú."
                 v "Algunos desaparecen. Otros vuelven. Y algunos... aprenden."
@@ -416,7 +416,7 @@ label acto2_inicio:
                 $ enfrento_problemas = True
                 $ valenzuela_relacion += 10
                 $ valenzuela_sabe_verdad = True
-                show valenzuela_comprensiva at center
+                show valenzuela_comprensiva at center, bajar_sprite
                 v "Es una pregunta válida. No tienes que responderla hoy."
                 v "Pero no desaparezcas, Leo. La ausencia no te da respuestas."
                 v "¿Qué te parece si nos vemos cada dos semanas? Solo para chequear."
@@ -449,7 +449,7 @@ label acto2_inicio:
                 $ mental_load += 1
                 $ valenzuela_relacion -= 10
                 $ valenzuela_ultima_impresion = "mentiroso"
-                show valenzuela_decepcionada at center
+                show valenzuela_decepcionada at center, bajar_sprite
                 v "Mmm. De acuerdo."
                 v "Pero Leo... las mentiras piadosas no me convencen."
                 v "He visto esa mirada antes. En otros estudiantes."
@@ -463,7 +463,7 @@ label acto2_inicio:
         v "Solo quería saludarte. Vas bien. Sigue así."
         $ prof_trust += 5
         $ valenzuela_relacion += 5
-        show valenzuela_comprensiva at center
+        show valenzuela_comprensiva at center, bajar_sprite
         v "Me alegra verte bien, Leo."
         v "¿Y el proyecto final? ¿Cómo vas?"
         
@@ -493,7 +493,7 @@ label acto2_inicio:
     # ESCENA ADICIONAL CON VALENZUELA
     if valenzuela_relacion >= 50:
         v "Leo. Una cosa más."
-        show valenzuela_neutral at center
+        show valenzuela_neutral at center, bajar_sprite
         with dissolve
         v "¿Conocés a Marco? El que mencionaste en clase la semana pasada."
         "Asiento."
@@ -573,7 +573,7 @@ label decision_playa:
     
     play music music_ambiental fadein 2.0
 
-    show bernard_neutral at center
+    show bernard_neutral at center, bajar_sprite
     with dissolve
 
     b "¿Cómo te fue con Valenzuela?"
@@ -706,7 +706,7 @@ label acto3_inicio:
 
     "Veo a Valenzuela en el pasillo. Me ve."
 
-    show valenzuela_neutral at center
+    show valenzuela_neutral at center, bajar_sprite
     with dissolve
 
     v "Leo."
@@ -719,7 +719,7 @@ label acto3_inicio:
             "Mejor. Estoy buscando ayuda.":
                 $ valenzuela_relacion += 10
                 $ valenzuela_ultima_impresion = "mejorando"
-                show valenzuela_orgullosa at center
+                show valenzuela_orgullosa at center, bajar_sprite
                 v "Eso es valiente, Leo. De verdad."
                 v "No es fácil admitir que necesitamos ayuda."
                 v "¿Y el proyecto?"
@@ -787,7 +787,7 @@ label acto3_inicio:
     else:
         v "Leo."
         $ valenzuela_interacciones += 1
-        show valenzuela_decepcionada at center
+        show valenzuela_decepcionada at center, bajar_sprite
         
         "No dice nada más. Solo me mira."
 
@@ -936,7 +936,7 @@ label final_amanecer_lucido:
     scene bg_oficina
     with dissolve
 
-    show valenzuela_orgullosa at center
+    show valenzuela_orgullosa at center, bajar_sprite
     with dissolve
 
     "Días después, en su oficina:"
@@ -976,7 +976,7 @@ label final_puente:
     scene bg_oficina
     with dissolve
 
-    show valenzuela_comprensiva at center
+    show valenzuela_comprensiva at center, bajar_sprite
     with dissolve
 
     "En su oficina:"
@@ -1017,7 +1017,7 @@ label final_desercion_silenciosa:
     scene bg_pasillo_universidad
     with dissolve
 
-    show valenzuela_decepcionada at center
+    show valenzuela_decepcionada at center, bajar_sprite
     with dissolve
 
     "La última vez que vi a Valenzuela:"
@@ -1069,7 +1069,7 @@ label final_colapso:
     scene bg_oficina
     with dissolve
 
-    show valenzuela_preocupada at center
+    show valenzuela_preocupada at center, bajar_sprite
     with dissolve
 
     "Recuerdo la última vez que vi a Valenzuela:"
@@ -1110,7 +1110,7 @@ label final_pausa_necesaria:
     scene bg_oficina
     with dissolve
 
-    show valenzuela_comprensiva at center
+    show valenzuela_comprensiva at center, bajar_sprite
     with dissolve
 
     v "Leo, gracias por ser honesto."
@@ -1152,7 +1152,7 @@ label final_carrera_vacia:
     scene bg_oficina
     with dissolve
 
-    show valenzuela_neutral at center
+    show valenzuela_neutral at center, bajar_sprite
     with dissolve
 
     "El día de la graduación, Valenzuela me detuvo:"
@@ -1190,7 +1190,7 @@ label final_circulo_vicioso:
     
     play music music_ambiental fadein 2.0
 
-    show bernard_triste at center
+    show bernard_triste at center, bajar_sprite
     with dissolve
 
     "Seguimos yendo a la playa. Seguimos bebiendo. Seguimos sin hablar de lo que importa."
@@ -1200,7 +1200,7 @@ label final_circulo_vicioso:
     scene bg_pasillo_universidad
     with dissolve
 
-    show valenzuela_decepcionada at center
+    show valenzuela_decepcionada at center, bajar_sprite
     with dissolve
 
     "La última vez que la vi:"
@@ -1223,7 +1223,7 @@ label final_circulo_vicioso:
     scene bg_playa_noche
     with dissolve
 
-    show bernard_triste at center
+    show bernard_triste at center, bajar_sprite
     with dissolve
 
     b "Oye, ¿mañana vamos?"
@@ -1252,7 +1252,7 @@ label final_reconstruccion_tardia:
 
     "Pero Bernard está ahí. Y por primera vez, no es para escapar juntos."
 
-    show bernard_feliz at center
+    show bernard_feliz at center, bajar_sprite
     with dissolve
     
     b "¿Empezamos de nuevo? Pero esta vez en serio."
@@ -1262,7 +1262,7 @@ label final_reconstruccion_tardia:
     scene bg_pasillo_universidad
     with dissolve
 
-    show valenzuela_comprensiva at center
+    show valenzuela_comprensiva at center, bajar_sprite
     with dissolve
 
     "Valenzuela me detuvo en el pasillo:"
