@@ -13,7 +13,7 @@
 ##
 ## El _() que rodea la cadena de texto la señala como traducible.
 
-define config.name = _("Resaca y Horizonte")
+define config.name = _("prueba resaca y horizonte grupal")
 
 
 ## Determina si el título dado más arriba se muestra en el menú principal.
@@ -37,7 +37,7 @@ define gui.about = _p("""
 ## Nombre breve del juego para ejecutables y directorios en la distribución.
 ## Debe contener solo carácteres ASCII, sin espacios, comas o puntos y coma.
 
-define build.name = "ResacayHorizonte"
+define build.name = "pruebaresacayhorizontegrupal"
 
 
 ## Sonidos y música ############################################################
@@ -144,7 +144,7 @@ default preferences.afm_time = 15
 ## Normalmente, este valor no debe ser modificado. Si lo es, debe ser siempre
 ## una cadena literal y no una expresión.
 
-define config.save_directory = "ResacayHorizonte-1779328013"
+define config.save_directory = "pruebaresacayhorizontegrupal-1782092086"
 
 
 ## Icono #######################################################################
