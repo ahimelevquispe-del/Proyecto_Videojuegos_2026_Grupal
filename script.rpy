@@ -227,6 +227,7 @@ label acto1_inicio:
             $ avoidance += 1
             $ drinking += 10
             $ mental_load += 1
+            hide bernard_neutral
             show bernard_triste at center, bajar_sprite
             b "Está bien. Pero solo un rato."
 
@@ -463,6 +464,7 @@ label acto2_inicio:
         v "Solo quería saludarte. Vas bien. Sigue así."
         $ prof_trust += 5
         $ valenzuela_relacion += 5
+        hide valenzuela_neutral
         show valenzuela_comprensiva at center, bajar_sprite
         v "Me alegra verte bien, Leo."
         v "¿Y el proyecto final? ¿Cómo vas?"
@@ -714,6 +716,7 @@ label acto3_inicio:
     if valenzuela_relacion >= 70:
         v "¿Cómo estás? ¿De verdad?"
         $ valenzuela_interacciones += 1
+        hide valenzuela_neutral
         
         menu:
             "Mejor. Estoy buscando ayuda.":
