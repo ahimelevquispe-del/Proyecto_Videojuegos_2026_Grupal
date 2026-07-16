@@ -28,27 +28,51 @@ default drinking = 0
 default impulse = 0
 default prof_trust = 50
 default bernard_vinculo = 50
-default valenzuela_relacion = 50  # NUEVA: Relación específica con Valenzuela (0-100)
-default valenzuela_interacciones = 0  # NUEVA: Contador de interacciones
-default valenzuela_ultima_impresion = "neutral"  # NUEVA: Última impresión que tiene de Leo
+default valenzuela_relacion = 50  
+default valenzuela_interacciones = 0  
+default valenzuela_ultima_impresion = "neutral"  
 default busco_ayuda = False
 default hubo_accidente = False
 default hubo_tutoria = False
 default mensaje_mama_respondido = False
 default enfrento_problemas = False
 default termino_carrera = False
-default valenzuela_ofrecido_extension = False  # NUEVA: Si ofreció prórroga
-default valenzuela_sabe_verdad = False  # NUEVA: Si Leo fue honesto con ella
+default valenzuela_ofrecido_extension = False  
+default valenzuela_sabe_verdad = False  
+
+default efecto_texto = "normal"
 
 # ============================================================
 # PERSONAJES
 # ============================================================
 
-define l = Character("Leo", color="#9b59b6")
-define b = Character("Bernard", color="#e67e22")
-define v = Character("Prof. Valenzuela", color="#7f8c8d")
-define pensamiento = Character(None, kind=nvl, what_italic=True, what_color="#CCCCCC")
-define mama = Character("Mamá", color="#e74c3c")
+# Variantes de diálogo: 
+define l = Character("Leo", who_color="#9b59b6", what_color="#f5f0ff")
+define l_ansioso = Character("Leo", who_color="#9b59b6", what_color="#d8c7ff")
+define l_esperanzado = Character("Leo", who_color="#9b59b6", what_color="#b9f6ca")
+
+define b = Character("Bernard", who_color="#e67e22", what_color="#f5f5f5")
+define b_preocupado = Character("Bernard", who_color="#e67e22", what_color="#ffd166")
+define b_triste = Character("Bernard", who_color="#e67e22", what_color="#9ecbff")
+define b_feliz = Character("Bernard", who_color="#e67e22", what_color="#b9f6ca")
+
+define v = Character("Prof. Valenzuela", who_color="#7f8c8d", what_color="#f5f5f5")
+define v_firme = Character("Prof. Valenzuela", who_color="#7f8c8d", what_color="#ffad8f")
+define v_comprensiva = Character("Prof. Valenzuela", who_color="#7f8c8d", what_color="#b9f6ca")
+define v_preocupada = Character("Prof. Valenzuela", who_color="#7f8c8d", what_color="#ffd166")
+define v_decepcionada = Character("Prof. Valenzuela", who_color="#7f8c8d", what_color="#ff9eaa")
+define v_orgullosa = Character("Prof. Valenzuela", who_color="#7f8c8d", what_color="#ffe08a")
+
+define pensamiento = Character(None, kind=nvl, what_italic=True, what_color="#cccccc", what_slow_cps=22)
+define pensamiento_ansioso = Character(None, kind=nvl, what_italic=True, what_color="#d8c7ff", what_slow_cps=18)
+define pensamiento_esperanzado = Character(None, kind=nvl, what_italic=True, what_color="#b9f6ca", what_slow_cps=24)
+
+define susurro = Character(None, what_color="#b8b8c2", what_size=26, what_italic=True, what_slow_cps=14)
+define b_nervioso = Character("Bernard", who_color="#e67e22", what_color="#ffd166", what_slow_cps=18)
+define b_gritando = Character("Bernard", who_color="#e67e22", what_color="#ff8a80", what_size=42, what_bold=True, what_slow_cps=55)
+define l_gritando = Character("Leo", who_color="#9b59b6", what_color="#ff8a80", what_size=42, what_bold=True, what_slow_cps=55)
+define mama = Character("Mamá", who_color="#e74c3c", what_color="#ffe0e3")
+
 
 # ============================================================
 # IMÁGENES
@@ -151,7 +175,8 @@ label acto1_inicio:
 
     "Tengo veintiún años, estoy en penúltimo año, y postergo la pregunta que más me pesa:"
 
-    pensamiento "\"¿Qué haré después?\""
+    pensamiento_ansioso "\"¿Qué haré después?\""
+    nvl clear
 
     "Pero esta noche, eso no importa. Esta noche solo importa el siguiente trago."
 
@@ -169,20 +194,20 @@ label acto1_inicio:
         "Qué bien por él.":
             $ prof_trust += 5
             $ mental_load -= 1
-            b "Sí... supongo que sí."
+            b_preocupado "Sí... supongo que sí."
 
         "Seguro se va a quemar en un mes.":
             $ avoidance += 1
             $ drinking += 10
             $ impulse += 1
             $ mental_load += 1
-            b "Qué amargo estás hoy."
+            b_triste "Qué amargo estás hoy."
 
         "No quiero hablar de eso.":
             $ avoidance += 1
             $ drinking += 5
             $ mental_load += 1
-            b "Claro. Como siempre."
+            b_triste "Claro. Como siempre."
 
     b "¿Y tú? ¿Ya pensaste en qué vas a hacer después de este ciclo?"
 
@@ -190,15 +215,17 @@ label acto1_inicio:
         "No sé. Quizás trabajar un rato, viajar...":
             $ avoidance += 1
             $ mental_load += 1
-            b "Eso dijiste el semestre pasado."
+            b_preocupado "Eso dijiste el semestre pasado."
 
         "Tengo miedo de elegir mal.":
             $ prof_trust += 5
             $ bernard_vinculo += 5
             $ enfrento_problemas = True
             show bernard_preocupado at center, bajar_sprite
-            b "Leo... es la primera vez que lo dices en voz alta."
-            b "Yo también tengo miedo."
+            $ efecto_texto = "temblor"
+            b_nervioso "Leo... es la primera vez que lo dices en voz alta."
+            b_nervioso "Yo también tengo miedo."
+            $ efecto_texto = "normal"
 
         "No hablemos de eso. Pásame la botella.":
             $ avoidance += 2
@@ -206,7 +233,7 @@ label acto1_inicio:
             $ impulse += 1
             $ mental_load += 2
             show bernard_triste at center, bajar_sprite
-            b "Toma."
+            b_triste "Toma."
 
     if drinking >= 25:
         "El alcohol me golpea más fuerte de lo esperado."
@@ -220,7 +247,7 @@ label acto1_inicio:
 
     show bernard_neutral at center, bajar_sprite
 
-    b "Deberíamos irnos. Mañana hay clase."
+    b_preocupado "Deberíamos irnos. Mañana hay clase."
 
     menu:
         "Quédate un rato más.":
@@ -229,7 +256,7 @@ label acto1_inicio:
             $ mental_load += 1
             hide bernard_neutral
             show bernard_triste at center, bajar_sprite
-            b "Está bien. Pero solo un rato."
+            b_triste "Está bien. Pero solo un rato."
 
         "Tienes razón. Vámonos.":
             $ prof_trust += 5
@@ -279,7 +306,8 @@ label acto1_inicio:
 
     hide screen telefono
 
-    pensamiento "\"¿Qué querrá? No he faltado tanto... ¿o sí?\""
+    pensamiento_ansioso "\"¿Qué querrá? No he faltado tanto... ¿o sí?\""
+    nvl clear
 
     menu:
         "Responder: 'Sí, profe. Mañana después de clase.'":
@@ -294,11 +322,14 @@ label acto1_inicio:
             "Mañana lo veo. Si es urgente, me volverá a escribir."
 
     if mental_load >= 7:
-        pensamiento "\"No puedo pensar. Todo pesa.\""
+        pensamiento_ansioso "\"No puedo pensar. Todo pesa.\""
+        nvl clear
     elif mental_load >= 4:
-        pensamiento "\"Tengo miedo, pero todavía puedo elegir.\""
+        pensamiento_esperanzado "\"Tengo miedo, pero todavía puedo elegir.\""
+        nvl clear
     else:
-        pensamiento "\"Mañana será otro día.\""
+        pensamiento_esperanzado "\"Mañana será otro día.\""
+        nvl clear
 
     $ renpy.pause(2)
     
@@ -334,7 +365,8 @@ label acto2_inicio:
 
     "Veo a Valenzuela al final. Está hablando con otro estudiante. Se ve cansada."
 
-    pensamiento "\"¿Cuántos como yo habrá visto?\""
+    pensamiento_ansioso "\"¿Cuántos como yo habrá visto?\""
+    nvl clear
 
     scene bg_oficina
     with dissolve
@@ -346,10 +378,10 @@ label acto2_inicio:
 
     "Su oficina está llena de libros. Hay fotos de exalumnos en la pared. Algunos sonríen, otros no."
 
-    v "Voy a ser directa contigo. He notado que estás... distante."
+    v_firme "Voy a ser directa contigo. He notado que estás... distante."
 
     if prof_trust < 30:
-        v "Estás en riesgo de deserción. No necesito que tengas todo resuelto. Necesito que aparezcas."
+        v_firme "Estás en riesgo de deserción. No necesito que tengas todo resuelto. Necesito que aparezcas."
         $ hubo_tutoria = True
         $ mental_load += 2
         $ valenzuela_relacion -= 5
@@ -362,32 +394,32 @@ label acto2_inicio:
                 $ valenzuela_relacion += 10
                 $ valenzuela_ultima_impresion = "honesto"
                 show valenzuela_comprensiva at center, bajar_sprite
-                v "Me alegra escucharlo, Leo. De verdad."
-                v "No te voy a mentir: la situación es seria. Pero no es irreversible."
-                v "¿Qué necesitas? ¿Una prórroga? ¿Reducir carga? ¿Algo más?"
+                v_comprensiva "Me alegra escucharlo, Leo. De verdad."
+                v_comprensiva "No te voy a mentir: la situación es seria. Pero no es irreversible."
+                v_comprensiva "¿Qué necesitas? ¿Una prórroga? ¿Reducir carga? ¿Algo más?"
                 
                 menu:
                     "Una prórroga para el proyecto final.":
                         $ valenzuela_ofrecido_extension = True
-                        v "Te doy dos semanas extra. Pero necesito un avance semanal."
-                        v "¿Trato?"
+                        v_comprensiva "Te doy dos semanas extra. Pero necesito un avance semanal."
+                        v_comprensiva "¿Trato?"
                         "Asiento."
-                        v "Bien. Y Leo... si necesitas hablar, mi puerta está abierta."
+                        v_comprensiva "Bien. Y Leo... si necesitas hablar, mi puerta está abierta."
                         $ valenzuela_relacion += 5
 
                     "No sé qué necesito. Solo... tiempo.":
-                        v "El tiempo no resuelve nada, Leo. Pero la acción sí."
-                        v "Vamos a fijar metas pequeñas. ¿Te parece?"
+                        v_firme "El tiempo no resuelve nada, Leo. Pero la acción sí."
+                        v_firme "Vamos a fijar metas pequeñas. ¿Te parece?"
                         $ valenzuela_relacion += 5
 
             "Es que no sé qué quiero hacer con la carrera.":
                 $ prof_trust += 5
                 $ valenzuela_relacion += 5
                 $ valenzuela_sabe_verdad = True
-                v "Eso es honesto. Pero la honestidad sin acción es solo otra forma de esconderse."
-                v "¿Sabes cuántos estudiantes me han dicho lo mismo? Muchos."
-                v "Y ¿sabes cuántos se graduaron sin saber qué querían? Más de los que imaginas."
-                v "La carrera no es el destino. Es el puente."
+                v_firme "Eso es honesto. Pero la honestidad sin acción es solo otra forma de esconderse."
+                v_firme "¿Sabes cuántos estudiantes me han dicho lo mismo? Muchos."
+                v_firme "Y ¿sabes cuántos se graduaron sin saber qué querían? Más de los que imaginas."
+                v_firme "La carrera no es el destino. Es el puente."
 
             "No vine a que me regañen.":
                 $ impulse += 2
@@ -397,16 +429,16 @@ label acto2_inicio:
                 $ valenzuela_relacion -= 15
                 $ valenzuela_ultima_impresion = "defensivo"
                 show valenzuela_firme at center, bajar_sprite
-                v "No es un regaño, Leo. Es un espejo."
-                v "Llevo quince años enseñando. He visto a cientos como tú."
-                v "Algunos desaparecen. Otros vuelven. Y algunos... aprenden."
-                v "¿Cuál vas a ser tú?"
+                v_firme "No es un regaño, Leo. Es un espejo."
+                v_firme "Llevo quince años enseñando. He visto a cientos como tú."
+                v_firme "Algunos desaparecen. Otros vuelven. Y algunos... aprenden."
+                v_firme "¿Cuál vas a ser tú?"
                 "No respondo."
-                v "Piénsalo. Y vuelve cuando estés listo para hablar de verdad."
+                v_firme "Piénsalo. Y vuelve cuando estés listo para hablar de verdad."
                 $ valenzuela_relacion -= 5
 
     elif prof_trust < 50:
-        v "He notado que faltaste a varias clases. ¿Todo bien?"
+        v_preocupada "He notado que faltaste a varias clases. ¿Todo bien?"
         $ hubo_tutoria = True
         $ valenzuela_interacciones += 1
 
@@ -418,21 +450,21 @@ label acto2_inicio:
                 $ valenzuela_relacion += 10
                 $ valenzuela_sabe_verdad = True
                 show valenzuela_comprensiva at center, bajar_sprite
-                v "Es una pregunta válida. No tienes que responderla hoy."
-                v "Pero no desaparezcas, Leo. La ausencia no te da respuestas."
-                v "¿Qué te parece si nos vemos cada dos semanas? Solo para chequear."
+                v_comprensiva "Es una pregunta válida. No tienes que responderla hoy."
+                v_comprensiva "Pero no desaparezcas, Leo. La ausencia no te da respuestas."
+                v_comprensiva "¿Qué te parece si nos vemos cada dos semanas? Solo para chequear."
                 
                 menu:
                     "Me parece bien.":
                         $ valenzuela_relacion += 5
-                        v "Bien. Entonces estamos de acuerdo."
-                        v "Y Leo... si las cosas se ponen muy pesadas, hay ayuda disponible."
-                        v "El centro de salud mental de la universidad es gratuito."
+                        v_comprensiva "Bien. Entonces estamos de acuerdo."
+                        v_comprensiva "Y Leo... si las cosas se ponen muy pesadas, hay ayuda disponible."
+                        v_comprensiva "El centro de salud mental de la universidad es gratuito."
                         "Asiento."
-                        v "Bien."
+                        v_comprensiva "Bien."
 
                     "No sé. Quizás.":
-                        v "Piénsalo. No es una obligación. Es una opción."
+                        v_comprensiva "Piénsalo. No es una obligación. Es una opción."
                         $ valenzuela_relacion += 3
 
             "He estado complicado, pero ya estoy mejor.":
@@ -440,9 +472,9 @@ label acto2_inicio:
                 $ mental_load += 1
                 $ valenzuela_relacion -= 5
                 $ valenzuela_ultima_impresion = "evasivo"
-                v "Está bien. Pero si necesitas algo, aquí estoy."
-                v "No soy tu enemiga, Leo. Soy tu profesora. Hay una diferencia."
-                v "Tu enemiga es la evasión. Yo solo te recuerdo que existe."
+                v_comprensiva "Está bien. Pero si necesitas algo, aquí estoy."
+                v_firme "No soy tu enemiga, Leo. Soy tu profesora. Hay una diferencia."
+                v_firme "Tu enemiga es la evasión. Yo solo te recuerdo que existe."
 
             "Todo bien, profe.":
                 $ avoidance += 1
@@ -451,38 +483,38 @@ label acto2_inicio:
                 $ valenzuela_relacion -= 10
                 $ valenzuela_ultima_impresion = "mentiroso"
                 show valenzuela_decepcionada at center, bajar_sprite
-                v "Mmm. De acuerdo."
-                v "Pero Leo... las mentiras piadosas no me convencen."
-                v "He visto esa mirada antes. En otros estudiantes."
-                v "Algunos volvieron. Otros no."
+                v_decepcionada "Mmm. De acuerdo."
+                v_decepcionada "Pero Leo... las mentiras piadosas no me convencen."
+                v_decepcionada "He visto esa mirada antes. En otros estudiantes."
+                v_decepcionada "Algunos volvieron. Otros no."
                 "Me levanto."
-                v "Leo."
+                v_decepcionada "Leo."
                 "Me detengo."
-                v "Mi puerta está abierta. Cuando estés listo para la verdad."
+                v_decepcionada "Mi puerta está abierta. Cuando estés listo para la verdad."
 
     else:
-        v "Solo quería saludarte. Vas bien. Sigue así."
+        v_orgullosa "Solo quería saludarte. Vas bien. Sigue así."
         $ prof_trust += 5
         $ valenzuela_relacion += 5
         hide valenzuela_neutral
         show valenzuela_comprensiva at center, bajar_sprite
-        v "Me alegra verte bien, Leo."
-        v "¿Y el proyecto final? ¿Cómo vas?"
+        v_comprensiva "Me alegra verte bien, Leo."
+        v_comprensiva "¿Y el proyecto final? ¿Cómo vas?"
         
         menu:
             "Voy avanzando. No es perfecto, pero avanza.":
                 $ prof_trust += 5
                 $ valenzuela_relacion += 5
-                v "Eso es lo importante. No tiene que ser perfecto."
-                v "Solo tiene que ser tuyo."
+                v_comprensiva "Eso es lo importante. No tiene que ser perfecto."
+                v_comprensiva "Solo tiene que ser tuyo."
 
             "Estoy complicado, pero lo voy a terminar.":
                 $ prof_trust += 10
                 $ valenzuela_relacion += 10
                 $ valenzuela_sabe_verdad = True
-                v "Eso suena a que estás luchando. Y está bien."
-                v "La lucha es parte del proceso."
-                v "Si necesitas algo, avísame."
+                v_comprensiva "Eso suena a que estás luchando. Y está bien."
+                v_comprensiva "La lucha es parte del proceso."
+                v_comprensiva "Si necesitas algo, avísame."
 
     hide valenzuela_neutral
     with dissolve
@@ -494,15 +526,15 @@ label acto2_inicio:
 
     # ESCENA ADICIONAL CON VALENZUELA
     if valenzuela_relacion >= 50:
-        v "Leo. Una cosa más."
+        v_comprensiva "Leo. Una cosa más."
         show valenzuela_neutral at center, bajar_sprite
         with dissolve
-        v "¿Conocés a Marco? El que mencionaste en clase la semana pasada."
+        v_comprensiva "¿Conocés a Marco? El que mencionaste en clase la semana pasada."
         "Asiento."
-        v "Él también estuvo donde estás ahora. Tercer año. Quería dejarlo todo."
-        v "Vino a verme. Hablamos. No fue mágico. Pero algo cambió."
-        v "Hoy trabaja en esa startup. Y está bien."
-        v "No te digo esto para presionarte. Te lo digo porque es posible."
+        v_comprensiva "Él también estuvo donde estás ahora. Tercer año. Quería dejarlo todo."
+        v_comprensiva "Vino a verme. Hablamos. No fue mágico. Pero algo cambió."
+        v_comprensiva "Hoy trabaja en esa startup. Y está bien."
+        v_comprensiva "No te digo esto para presionarte. Te lo digo porque es posible."
         $ valenzuela_relacion += 5
         hide valenzuela_neutral
         with dissolve
@@ -513,11 +545,14 @@ label acto2_inicio:
     "Salgo de la oficina."
 
     if valenzuela_relacion >= 60:
-        pensamiento "\"Quizás no todo está perdido.\""
+        pensamiento_esperanzado "\"Quizás no todo está perdido.\""
+        nvl clear
     elif valenzuela_relacion >= 40:
-        pensamiento "\"Al menos alguien me ve.\""
+        pensamiento_esperanzado "\"Al menos alguien me ve.\""
+        nvl clear
     else:
-        pensamiento "\"Otra persona que espera algo de mí.\""
+        pensamiento_ansioso "\"Otra persona que espera algo de mí.\""
+        nvl clear
 
     $ valenzuela_interacciones += 1
     
@@ -584,18 +619,18 @@ label decision_playa:
         "Fue... necesaria.":
             $ prof_trust += 5
             $ mental_load -= 1
-            b "Me alegra. De verdad."
+            b_feliz "Me alegra. De verdad."
 
         "Fue horrible. No quiero volver.":
             $ avoidance += 1
             $ mental_load += 1
-            b "Ya. Pásame la botella entonces."
+            b_triste "Ya. Pásame la botella entonces."
             $ drinking += 10
 
         "No quiero hablar de eso.":
             $ avoidance += 1
             $ mental_load += 1
-            b "Claro. Como siempre."
+            b_triste "Claro. Como siempre."
 
     "Pasamos la noche ahí. El ciclo se repite."
 
@@ -714,81 +749,81 @@ label acto3_inicio:
     v "Leo."
 
     if valenzuela_relacion >= 70:
-        v "¿Cómo estás? ¿De verdad?"
+        v_comprensiva "¿Cómo estás? ¿De verdad?"
         $ valenzuela_interacciones += 1
+        hide valenzuela_neutral
         
         menu:
             "Mejor. Estoy buscando ayuda.":
-                hide valenzuela_neutral
                 $ valenzuela_relacion += 10
                 $ valenzuela_ultima_impresion = "mejorando"
                 show valenzuela_orgullosa at center, bajar_sprite
-                v "Eso es valiente, Leo. De verdad."
-                v "No es fácil admitir que necesitamos ayuda."
-                v "¿Y el proyecto?"
+                v_orgullosa "Eso es valiente, Leo. De verdad."
+                v_orgullosa "No es fácil admitir que necesitamos ayuda."
+                v_orgullosa "¿Y el proyecto?"
                 
                 menu:
                     "Voy avanzando. No es perfecto, pero avanza.":
                         $ prof_trust += 10
-                        v "Eso es todo lo que necesito escuchar."
-                        v "Sigue así."
+                        v_orgullosa "Eso es todo lo que necesito escuchar."
+                        v_orgullosa "Sigue así."
                     
                     "Estoy complicado, pero no voy a dejarlo.":
                         $ prof_trust += 15
                         $ enfrento_problemas = True
-                        v "Eso es lo importante. No rendirse."
-                        v "Y recuerda: mi puerta siempre está abierta."
+                        v_orgullosa "Eso es lo importante. No rendirse."
+                        v_orgullosa "Y recuerda: mi puerta siempre está abierta."
 
             "Sigo complicado. Pero estoy intentando.":
                 $ valenzuela_relacion += 5
-                v "Eso es suficiente, Leo. Intentar es suficiente."
-                v "No tienes que tener todo resuelto."
-                v "Solo tienes que seguir moviéndote."
+                v_comprensiva "Eso es suficiente, Leo. Intentar es suficiente."
+                v_comprensiva "No tienes que tener todo resuelto."
+                v_comprensiva "Solo tienes que seguir moviéndote."
 
             "Estoy bien.":
                 $ avoidance += 1
                 $ valenzuela_relacion -= 5
-                v "Mmm. De acuerdo."
-                v "Pero Leo... las mentiras piadosas no me convencen."
-                v "Ya sabes dónde encontrarme."
+                v_decepcionada "Mmm. De acuerdo."
+                v_decepcionada "Pero Leo... las mentiras piadosas no me convencen."
+                v_decepcionada "Ya sabes dónde encontrarme."
 
     elif valenzuela_relacion >= 40:
-        v "¿Cómo vas con el proyecto?"
+        v_comprensiva "¿Cómo vas con el proyecto?"
         $ valenzuela_interacciones += 1
         
         menu:
             "Voy avanzando.":
                 $ prof_trust += 5
-                v "Bien. Sigue así."
-                v "Y recuerda: si necesitas ayuda, aquí estoy."
+                v_comprensiva "Bien. Sigue así."
+                v_comprensiva "Y recuerda: si necesitas ayuda, aquí estoy."
 
             "Estoy complicado.":
                 $ valenzuela_relacion += 5
                 $ valenzuela_sabe_verdad = True
-                v "Está bien admitirlo, Leo."
-                v "¿Has pensado en buscar ayuda?"
+                v_comprensiva "Está bien admitirlo, Leo."
+                v_comprensiva "¿Has pensado en buscar ayuda?"
                 
                 menu:
                     "Sí. Voy a ir al centro de salud.":
                         $ busco_ayuda = True
                         $ mental_load -= 2
                         $ valenzuela_relacion += 10
-                        v "Eso es valiente. De verdad."
-                        v "Y si necesitas una prórroga para el proyecto, dímelo."
+                        v_orgullosa "Eso es valiente. De verdad."
+                        v_orgullosa "Y si necesitas una prórroga para el proyecto, dímelo."
                         $ valenzuela_ofrecido_extension = True
 
                     "No sé. Quizás.":
-                        v "Piénsalo. No es una obligación. Es una opción."
-                        v "Pero no te quedes solo con el peso."
+                        v_comprensiva "Piénsalo. No es una obligación. Es una opción."
+                        v_comprensiva "Pero no te quedes solo con el peso."
 
             "Todo bien.":
                 $ avoidance += 1
                 $ valenzuela_relacion -= 5
-                v "Mmm. De acuerdo."
-                v "Pero Leo... ya sabes dónde encontrarme."
+                v_decepcionada "Mmm. De acuerdo."
+                v_decepcionada "Pero Leo... ya sabes dónde encontrarme."
 
     else:
-        v "Leo."
+        v_decepcionada "Leo."
         $ valenzuela_interacciones += 1
         show valenzuela_decepcionada at center, bajar_sprite
         
@@ -797,29 +832,29 @@ label acto3_inicio:
         menu:
             "Profe, yo...":
                 $ valenzuela_relacion += 10
-                v "No necesito disculpas, Leo."
-                v "Necesito que decidas."
-                v "¿Vas a desaparecer? ¿O vas a intentar?"
+                v_firme "No necesito disculpas, Leo."
+                v_firme "Necesito que decidas."
+                v_firme "¿Vas a desaparecer? ¿O vas a intentar?"
                 
                 menu:
                     "Voy a intentar.":
                         $ enfrento_problemas = True
                         $ valenzuela_relacion += 10
-                        v "Bien. Entonces empieza hoy."
-                        v "No mañana. Hoy."
+                        v_firme "Bien. Entonces empieza hoy."
+                        v_firme "No mañana. Hoy."
 
                     "No sé.":
                         $ avoidance += 1
                         $ valenzuela_relacion -= 5
-                        v "Entonces piénsalo. Pero rápido."
-                        v "El tiempo no espera."
+                        v_firme "Entonces piénsalo. Pero rápido."
+                        v_firme "El tiempo no espera."
 
             "Profe, disculpe. He estado...":
                 $ avoidance += 1
                 $ valenzuela_relacion -= 5
-                v "No necesito disculpas vacías, Leo."
-                v "Necesito acción."
-                v "¿Qué vas a hacer?"
+                v_firme "No necesito disculpas vacías, Leo."
+                v_firme "Necesito acción."
+                v_firme "¿Qué vas a hacer?"
 
     hide valenzuela_neutral
     with dissolve
@@ -830,11 +865,14 @@ label acto3_inicio:
     "Me alejo."
 
     if valenzuela_relacion >= 60:
-        pensamiento "\"Quizás no todo está perdido.\""
+        pensamiento_esperanzado "\"Quizás no todo está perdido.\""
+        nvl clear
     elif valenzuela_relacion >= 40:
-        pensamiento "\"Al menos alguien me ve.\""
+        pensamiento_esperanzado "\"Al menos alguien me ve.\""
+        nvl clear
     else:
-        pensamiento "\"Otra persona que espera algo de mí.\""
+        pensamiento_ansioso "\"Otra persona que espera algo de mí.\""
+        nvl clear
 
     $ renpy.pause(2)
     
@@ -921,11 +959,14 @@ label final_amanecer_lucido:
 
     "Escribo tres líneas:"
 
-    pensamiento "\"Lo que me da miedo: no ser suficiente.\""
+    pensamiento_ansioso "\"Lo que me da miedo: no ser suficiente.\""
+    nvl clear
     $ renpy.pause(2)
-    pensamiento "\"Lo que ya sé: no estoy solo.\""
+    pensamiento_esperanzado "\"Lo que ya sé: no estoy solo.\""
+    nvl clear
     $ renpy.pause(2)
-    pensamiento "\"Lo que puedo controlar: el siguiente paso.\""
+    pensamiento_esperanzado "\"Lo que puedo controlar: el siguiente paso.\""
+    nvl clear
     $ renpy.pause(3)
 
     "El sol empieza a salir. La garúa se disipa."
@@ -944,13 +985,13 @@ label final_amanecer_lucido:
 
     "Días después, en su oficina:"
 
-    v "Leo. Vi tu proyecto final."
-    v "No es perfecto. Pero es tuyo."
-    v "Eso es lo que importa."
+    v_orgullosa "Leo. Vi tu proyecto final."
+    v_orgullosa "No es perfecto. Pero es tuyo."
+    v_orgullosa "Eso es lo que importa."
     "Sonrío."
-    v "¿Y ahora? ¿Qué vas a hacer?"
+    v_orgullosa "¿Y ahora? ¿Qué vas a hacer?"
     "No sé. Pero por primera vez, eso no me asusta."
-    v "Bien. Sigue así."
+    v_orgullosa "Bien. Sigue así."
 
     hide valenzuela_orgullosa
     with dissolve
@@ -984,12 +1025,12 @@ label final_puente:
 
     "En su oficina:"
 
-    v "Leo, ¿cómo vas?"
+    v_comprensiva "Leo, ¿cómo vas?"
     "Le muestro el avance. No es mucho, pero es algo."
-    v "Bien. Sigue así."
-    v "Y recuerda: no tienes que hacerlo solo."
+    v_comprensiva "Bien. Sigue así."
+    v_comprensiva "Y recuerda: no tienes que hacerlo solo."
     "Asiento."
-    v "Bien."
+    v_comprensiva "Bien."
 
     hide valenzuela_comprensiva
     with dissolve
@@ -1025,12 +1066,12 @@ label final_desercion_silenciosa:
 
     "La última vez que vi a Valenzuela:"
 
-    v "Leo."
+    v_decepcionada "Leo."
     "No respondí."
-    v "Entiendo."
-    v "Pero quiero que sepas algo."
-    v "Mi puerta siempre estuvo abierta."
-    v "Y siempre lo estará."
+    v_decepcionada "Entiendo."
+    v_decepcionada "Pero quiero que sepas algo."
+    v_decepcionada "Mi puerta siempre estuvo abierta."
+    v_decepcionada "Y siempre lo estará."
     "Seguí caminando."
 
     hide valenzuela_decepcionada
@@ -1077,12 +1118,12 @@ label final_colapso:
 
     "Recuerdo la última vez que vi a Valenzuela:"
 
-    v "Leo, necesito que me escuches."
-    v "Estás desapareciendo."
-    v "Y no puedo dejarte caer sin intentar algo."
-    v "¿Hay alguien con quien pueda hablar? ¿Familia? ¿Amigos?"
+    v_preocupada "Leo, necesito que me escuches."
+    v_preocupada "Estás desapareciendo."
+    v_preocupada "Y no puedo dejarte caer sin intentar algo."
+    v_preocupada "¿Hay alguien con quien pueda hablar? ¿Familia? ¿Amigos?"
     "No respondí."
-    v "Por favor, Leo. No te rindas."
+    v_preocupada "Por favor, Leo. No te rindas."
     "Me fui."
 
     hide valenzuela_preocupada
@@ -1116,15 +1157,15 @@ label final_pausa_necesaria:
     show valenzuela_comprensiva at center, bajar_sprite
     with dissolve
 
-    v "Leo, gracias por ser honesto."
-    v "No es rendirse. Es reconocer tus límites."
-    v "Vamos a congelar el ciclo. Y cuando estés listo, vuelves."
-    v "¿Trato?"
+    v_comprensiva "Leo, gracias por ser honesto."
+    v_comprensiva "No es rendirse. Es reconocer tus límites."
+    v_comprensiva "Vamos a congelar el ciclo. Y cuando estés listo, vuelves."
+    v_comprensiva "¿Trato?"
     "Asiento."
-    v "Bien. Y Leo..."
-    v "Cuídate. De verdad."
+    v_comprensiva "Bien. Y Leo..."
+    v_comprensiva "Cuídate. De verdad."
     "Gracias, profe."
-    v "De nada. Ahora ve a descansar."
+    v_comprensiva "De nada. Ahora ve a descansar."
 
     hide valenzuela_comprensiva
     with dissolve
@@ -1160,17 +1201,17 @@ label final_carrera_vacia:
 
     "El día de la graduación, Valenzuela me detuvo:"
 
-    v "Leo. Felicidades."
+    v_orgullosa "Leo. Felicidades."
     "Gracias, profe."
-    v "¿Estás bien?"
+    v_preocupada "¿Estás bien?"
     "Sí. Todo bien."
-    v "Mmm."
-    v "Leo, el título no es el final. Es el comienzo."
-    v "Ahora viene lo difícil: descubrir quién eres sin la estructura."
-    v "¿Tienes un plan?"
+    v_preocupada "Mmm."
+    v_comprensiva "Leo, el título no es el final. Es el comienzo."
+    v_comprensiva "Ahora viene lo difícil: descubrir quién eres sin la estructura."
+    v_preocupada "¿Tienes un plan?"
     "No."
-    v "Entonces búscalo. No te conformes con actuar un papel."
-    v "Mereces más que eso."
+    v_comprensiva "Entonces búscalo. No te conformes con actuar un papel."
+    v_comprensiva "Mereces más que eso."
     "No respondí."
 
     hide valenzuela_neutral
@@ -1208,17 +1249,17 @@ label final_circulo_vicioso:
 
     "La última vez que la vi:"
 
-    v "Leo."
+    v_decepcionada "Leo."
     "Profe."
-    v "Vi tu proyecto."
-    v "No es tu mejor trabajo."
+    v_decepcionada "Vi tu proyecto."
+    v_decepcionada "No es tu mejor trabajo."
     "Lo sé."
-    v "Pero lo terminaste."
-    v "Supongo que eso cuenta para algo."
+    v_decepcionada "Pero lo terminaste."
+    v_decepcionada "Supongo que eso cuenta para algo."
     "Supongo."
-    v "Leo, ¿vas a seguir así?"
+    v_preocupada "Leo, ¿vas a seguir así?"
     "No sé."
-    v "Piénsalo. Antes de que sea tarde."
+    v_preocupada "Piénsalo. Antes de que sea tarde."
 
     hide valenzuela_decepcionada
     with dissolve
@@ -1229,7 +1270,7 @@ label final_circulo_vicioso:
     show bernard_triste at center, bajar_sprite
     with dissolve
 
-    b "Oye, ¿mañana vamos?"
+    b_feliz "Oye, ¿mañana vamos?"
 
     "Digo que sí. Como siempre."
 
@@ -1258,7 +1299,7 @@ label final_reconstruccion_tardia:
     show bernard_feliz at center, bajar_sprite
     with dissolve
     
-    b "¿Empezamos de nuevo? Pero esta vez en serio."
+    b_feliz "¿Empezamos de nuevo? Pero esta vez en serio."
 
     "Asiento."
 
@@ -1270,27 +1311,27 @@ label final_reconstruccion_tardia:
 
     "Valenzuela me detuvo en el pasillo:"
 
-    v "Leo. Sé que perdiste el ciclo."
+    v_comprensiva "Leo. Sé que perdiste el ciclo."
     "Sí."
-    v "Pero vi que volviste."
-    v "Eso es lo importante."
-    v "No es el final. Es el comienzo."
-    v "¿Necesitas ayuda con los cursos?"
+    v_orgullosa "Pero vi que volviste."
+    v_orgullosa "Eso es lo importante."
+    v_comprensiva "No es el final. Es el comienzo."
+    v_comprensiva "¿Necesitas ayuda con los cursos?"
     
     menu:
         "Sí, profe. Me vendría bien.":
             $ valenzuela_relacion += 10
-            v "Bien. Ven a mi oficina el martes."
-            v "Vamos a armar un plan."
-            v "Y Leo..."
-            v "No te rindas. ¿De acuerdo?"
+            v_comprensiva "Bien. Ven a mi oficina el martes."
+            v_comprensiva "Vamos a armar un plan."
+            v_comprensiva "Y Leo..."
+            v_comprensiva "No te rindas. ¿De acuerdo?"
             "De acuerdo."
-            v "Bien."
+            v_comprensiva "Bien."
 
         "Creo que puedo solo.":
-            v "Está bien. Pero si cambias de opinión, aquí estoy."
-            v "No hay vergüenza en pedir ayuda."
-            v "Recuérdalo."
+            v_comprensiva "Está bien. Pero si cambias de opinión, aquí estoy."
+            v_comprensiva "No hay vergüenza en pedir ayuda."
+            v_comprensiva "Recuérdalo."
 
     hide valenzuela_comprensiva
     with dissolve
