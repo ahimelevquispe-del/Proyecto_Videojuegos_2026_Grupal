@@ -196,6 +196,7 @@ label acto1_inicio:
             $ prof_trust += 5
             $ bernard_vinculo += 5
             $ enfrento_problemas = True
+            hide bernard_neutral
             show bernard_preocupado at center, bajar_sprite
             b "Leo... es la primera vez que lo dices en voz alta."
             b "Yo también tengo miedo."
@@ -205,6 +206,7 @@ label acto1_inicio:
             $ drinking += 15
             $ impulse += 1
             $ mental_load += 2
+            hide bernard_neutral
             show bernard_triste at center, bajar_sprite
             b "Toma."
 
@@ -361,6 +363,7 @@ label acto2_inicio:
                 $ enfrento_problemas = True
                 $ valenzuela_relacion += 10
                 $ valenzuela_ultima_impresion = "honesto"
+                hide valenzuela_neutral
                 show valenzuela_comprensiva at center, bajar_sprite
                 v "Me alegra escucharlo, Leo. De verdad."
                 v "No te voy a mentir: la situación es seria. Pero no es irreversible."
@@ -396,6 +399,7 @@ label acto2_inicio:
                 $ mental_load += 2
                 $ valenzuela_relacion -= 15
                 $ valenzuela_ultima_impresion = "defensivo"
+                hide valenzuela_neutral
                 show valenzuela_firme at center, bajar_sprite
                 v "No es un regaño, Leo. Es un espejo."
                 v "Llevo quince años enseñando. He visto a cientos como tú."
@@ -417,6 +421,7 @@ label acto2_inicio:
                 $ enfrento_problemas = True
                 $ valenzuela_relacion += 10
                 $ valenzuela_sabe_verdad = True
+                hide valenzuela_neutral
                 show valenzuela_comprensiva at center, bajar_sprite
                 v "Es una pregunta válida. No tienes que responderla hoy."
                 v "Pero no desaparezcas, Leo. La ausencia no te da respuestas."
@@ -450,6 +455,7 @@ label acto2_inicio:
                 $ mental_load += 1
                 $ valenzuela_relacion -= 10
                 $ valenzuela_ultima_impresion = "mentiroso"
+                hide valenzuela_neutral
                 show valenzuela_decepcionada at center, bajar_sprite
                 v "Mmm. De acuerdo."
                 v "Pero Leo... las mentiras piadosas no me convencen."
