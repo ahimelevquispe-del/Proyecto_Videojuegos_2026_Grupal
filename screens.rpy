@@ -308,7 +308,7 @@ screen navigation():
             textbutton _("Guardar") action ShowMenu("save")
 
         textbutton _("Cargar") action ShowMenu("load")
-
+        textbutton _("Galería de Finales") action ShowMenu("galeria_finales")
         textbutton _("Opciones") action ShowMenu("preferences")
 
         if _in_replay:
