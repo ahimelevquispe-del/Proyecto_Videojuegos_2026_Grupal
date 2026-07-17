@@ -41,7 +41,25 @@ default valenzuela_ofrecido_extension = False
 default valenzuela_sabe_verdad = False  
 
 default efecto_texto = "normal"
+# ============================================================
+# GALERÍA DE FINALES (básico)
+# ============================================================
 
+init python:
+    if persistent.finales_desbloqueados is None:
+        persistent.finales_desbloqueados = set()
+
+# (id interno -debe coincidir con el usado en cada label final_*-, título, descripción corta)
+define finales_info = [
+    ("amanecer_lucido", "Amanecer Lúcido", "Leo busca ayuda y encuentra claridad."),
+    ("puente", "Puente", "Un final positivo, aunque incompleto."),
+    ("desercion_silenciosa", "Deserción Silenciosa", "El abandono más silencioso."),
+    ("colapso", "Colapso", "El punto de quiebre más oscuro."),
+    ("pausa_necesaria", "Pausa Necesaria", "Reconocer los propios límites."),
+    ("carrera_vacia", "Carrera Vacía", "Éxito académico, vacío personal."),
+    ("circulo_vicioso", "Círculo Vicioso", "El ciclo se repite sin fin."),
+    ("reconstruccion_tardia", "Reconstrucción Tardía", "Un comienzo más lento, pero honesto."),
+]
 # ============================================================
 # PERSONAJES
 # ============================================================
@@ -944,6 +962,7 @@ label acto3_inicio:
 # ============================================================
 
 label final_amanecer_lucido:
+    $ persistent.finales_desbloqueados.add("amanecer_lucido")
     scene bg_playa_amanecer
     with dissolve
     
@@ -1012,6 +1031,7 @@ label final_amanecer_lucido:
     jump menu_finales
 
 label final_puente:
+    $ persistent.finales_desbloqueados.add("puente")
     scene bg_playa_amanecer
     with dissolve
     
@@ -1053,6 +1073,7 @@ label final_puente:
     jump menu_finales
 
 label final_desercion_silenciosa:
+    $ persistent.finales_desbloqueados.add("desercion_silenciosa")
     scene bg_habitacion
     with dissolve
     
@@ -1095,6 +1116,7 @@ label final_desercion_silenciosa:
     jump menu_finales
 
 label final_colapso:
+    $ persistent.finales_desbloqueados.add("colapso")
     scene bg_black
     with fade
     
@@ -1150,6 +1172,7 @@ label final_colapso:
     jump menu_finales
 
 label final_pausa_necesaria:
+    $ persistent.finales_desbloqueados.add("pausa_necesaria")
     scene bg_campus_tarde
     with dissolve
     
@@ -1188,6 +1211,7 @@ label final_pausa_necesaria:
     jump menu_finales
 
 label final_carrera_vacia:
+    $ persistent.finales_desbloqueados.add("carrera_vacia")
     scene bg_biblioteca
     with dissolve
     
@@ -1235,6 +1259,7 @@ label final_carrera_vacia:
     jump menu_finales
 
 label final_circulo_vicioso:
+    $ persistent.finales_desbloqueados.add("circulo_vicioso")
     scene bg_playa_noche
     with dissolve
     
@@ -1293,6 +1318,7 @@ label final_circulo_vicioso:
     jump menu_finales
 
 label final_reconstruccion_tardia:
+    $ persistent.finales_desbloqueados.add("reconstruccion_tardia")
     scene bg_cancha
     with dissolve
     
@@ -1388,3 +1414,32 @@ label menu_finales:
             return
 
 return
+# ============================================================
+# PANTALLA: GALERÍA DE FINALES (básica)
+# ============================================================
+
+screen galeria_finales():
+    tag menu
+
+    use game_menu(_("Galería de Finales"), scroll="viewport"):
+
+        style_prefix "about"
+
+        vbox:
+            spacing 15
+
+            for id_final, titulo, descripcion in finales_info:
+
+                frame:
+                    background "#00000099"
+                    padding (15, 10)
+                    xfill True
+
+                    if id_final in persistent.finales_desbloqueados:
+                        vbox:
+                            text "[titulo]" size 22 color "#ffe08a" bold True
+                            text "[descripcion]" size 16 color "#f5f5f5"
+                    else:
+                        vbox:
+                            text "???" size 22 color "#888888" bold True
+                            text "Final bloqueado. Sigue jugando para desbloquearlo." size 16 color "#666666"
